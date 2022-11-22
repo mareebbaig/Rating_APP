@@ -1,9 +1,21 @@
-import 'package:checkapp/reviewPage.dart';
-import 'package:checkapp/signUpPage.dart';
+import 'package:checkapp/controller/companyController.dart';
+import 'package:checkapp/controller/employeeController.dart';
+import 'package:checkapp/screens/signUpPage.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
 void main() {
-  runApp(const MyApp());
+  runApp(
+    MultiProvider(
+      providers: [
+        ChangeNotifierProvider<CompanyController>(
+            create: (_) => CompanyController()),
+        ChangeNotifierProvider<EmployeeController>(
+            create: (_) => EmployeeController())
+      ],
+      child: MyApp(),
+    ),
+  );
 }
 
 class MyApp extends StatelessWidget {

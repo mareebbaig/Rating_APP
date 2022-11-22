@@ -1,9 +1,42 @@
+import 'package:checkapp/controller/userController.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/src/widgets/container.dart';
-import 'package:flutter/src/widgets/framework.dart';
 
-class ReviewPage extends StatelessWidget {
-  const ReviewPage({super.key});
+class InsertReviewPage extends StatefulWidget {
+  final UserController? user;
+  const InsertReviewPage({super.key, required this.user});
+
+  @override
+  State<InsertReviewPage> createState() => _InsertReviewPageState();
+}
+
+class _InsertReviewPageState extends State<InsertReviewPage> {
+  void _failSnackbar(String error) {
+    final snackBar = SnackBar(
+      behavior: SnackBarBehavior.floating,
+      content: Text(
+        error,
+        textAlign: TextAlign.center,
+        style: TextStyle(),
+      ),
+    );
+    ScaffoldMessenger.of(context).showSnackBar(snackBar);
+  }
+
+  void _tryInsertReview(String empName, String review) async {
+    try {
+      var response =
+          await widget.user?.tryInsertingReview(widget.user, empName, review);
+      if (response == 200) {
+        _failSnackbar('Review posted');
+      }
+    } catch (e) {
+      _failSnackbar(e.toString());
+    }
+  }
+
+  TextEditingController empNameController = TextEditingController();
+
+  TextEditingController reviewController = TextEditingController();
 
   @override
   Widget build(BuildContext context) {
@@ -48,11 +81,10 @@ class ReviewPage extends StatelessWidget {
                       const SizedBox(
                         height: 5,
                       ),
-                      const TextField(
-                        decoration: InputDecoration(
-                          border: OutlineInputBorder(),
-                        ),
-                        // controller: emailController,
+                      TextField(
+                        decoration:
+                            InputDecoration(border: OutlineInputBorder()),
+                        controller: empNameController,
                       ),
                       const SizedBox(
                         height: 10,
@@ -74,6 +106,7 @@ class ReviewPage extends StatelessWidget {
                         decoration: const InputDecoration(
                           border: OutlineInputBorder(),
                         ),
+                        controller: reviewController,
                         //controller: emailController,
                       ),
                       const SizedBox(
@@ -87,11 +120,14 @@ class ReviewPage extends StatelessWidget {
                               height: 45,
                               child: ElevatedButton(
                                 onPressed: () {
-                                  // Navigator.push(
-                                  //   context,
-                                  //   MaterialPageRoute(
-                                  //       builder: (context) => CompanyDetails()),
-                                  // );
+                                  if (empNameController.text != '' &&
+                                      reviewController.text != '') {
+                                    _tryInsertReview(empNameController.text,
+                                        reviewController.text);
+
+                                    empNameController.clear();
+                                    reviewController.clear();
+                                  }
                                 },
                                 style: ElevatedButton.styleFrom(
                                   backgroundColor: const Color(0xff0A66C2),

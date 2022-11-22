@@ -1,13 +1,53 @@
-import 'package:checkapp/reviewPage.dart';
-import 'package:flutter/cupertino.dart';
+import 'package:checkapp/controller/userController.dart';
+import 'package:checkapp/screens/InsertreviewPage.dart';
+import 'package:checkapp/screens/companiesPage.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/src/widgets/container.dart';
-import 'package:flutter/src/widgets/framework.dart';
+import '../controller/companyController.dart';
+import 'package:provider/provider.dart';
 
-class CompanyDetails extends StatelessWidget {
-  CompanyDetails({super.key});
-  TextEditingController companyNameController = TextEditingController();
-  TextEditingController cityController = TextEditingController();
+UserController user = UserController();
+
+class LoginPage extends StatefulWidget {
+  LoginPage({super.key});
+
+  @override
+  State<LoginPage> createState() => _LoginPageState();
+}
+
+class _LoginPageState extends State<LoginPage> {
+  void _failSnackbar(String error) {
+    final snackBar = SnackBar(
+      behavior: SnackBarBehavior.floating,
+      content: Text(
+        error,
+        textAlign: TextAlign.center,
+        style: TextStyle(),
+      ),
+    );
+    ScaffoldMessenger.of(context).showSnackBar(snackBar);
+  }
+
+  void _tryLogin(String email, String password) async {
+    try {
+      var response = await user.tryLogin(email, password);
+      if (response['code'] == 200) {
+        Navigator.push(
+          context,
+          MaterialPageRoute(
+            builder: (context) => InsertReviewPage(user: user),
+          ),
+        );
+      } else if (response['code'] == 500) {
+        _failSnackbar(response['error']);
+      }
+    } catch (e) {
+      _failSnackbar(e.toString());
+    }
+  }
+
+  TextEditingController emailController = TextEditingController();
+
+  TextEditingController passwordController = TextEditingController();
 
   @override
   Widget build(BuildContext context) {
@@ -29,13 +69,16 @@ class CompanyDetails extends StatelessWidget {
                 padding: const EdgeInsets.all(10),
                 child: IconButton(
                   tooltip: "read review",
-                  onPressed: () {
+                  onPressed: () async {
+                    await context.read<CompanyController>().GetCompnies();
+                    // ignore: use_build_context_synchronously
                     Navigator.push(
                       context,
                       MaterialPageRoute(
-                        builder: (context) => ReviewPage(),
+                        builder: (context) => CompaniesPage(),
                       ),
                     );
+                    //  tryGettingComp(context);
                   },
                   icon: const Icon(
                     Icons.rate_review_outlined,
@@ -81,7 +124,7 @@ class CompanyDetails extends StatelessWidget {
                       const Padding(
                         padding: EdgeInsets.only(left: 40),
                         child: Text(
-                          "Company Details",
+                          "SignIn",
                           style: TextStyle(
                             color: Color(0xff0A66C2),
                             fontSize: 30.0,
@@ -95,9 +138,8 @@ class CompanyDetails extends StatelessWidget {
                         padding: const EdgeInsets.only(left: 40, right: 40),
                         child: TextField(
                           decoration: const InputDecoration(
-                              border: OutlineInputBorder(),
-                              hintText: 'Company Name'),
-                          controller: companyNameController,
+                              border: OutlineInputBorder(), hintText: 'Email'),
+                          controller: emailController,
                         ),
                       ),
                       Padding(
@@ -105,8 +147,9 @@ class CompanyDetails extends StatelessWidget {
                         child: TextField(
                           obscureText: true,
                           decoration: const InputDecoration(
-                              border: OutlineInputBorder(), hintText: 'City'),
-                          controller: cityController,
+                              border: OutlineInputBorder(),
+                              hintText: 'Password'),
+                          controller: passwordController,
                         ),
                       ),
                       Center(
@@ -114,13 +157,16 @@ class CompanyDetails extends StatelessWidget {
                           height: 50,
                           width: 200,
                           child: ElevatedButton(
-                            onPressed: () {},
+                            onPressed: () {
+                              _tryLogin(emailController.text,
+                                  passwordController.text);
+                            },
                             style: ElevatedButton.styleFrom(
                               backgroundColor: const Color(0xff0A66C2),
                               elevation: 10,
                             ),
                             child: const Text(
-                              "Continue",
+                              "SignIn",
                               style: TextStyle(
                                 fontSize: 18.0,
                                 fontWeight: FontWeight.w900,
