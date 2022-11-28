@@ -31,12 +31,12 @@ class _CompanyDetailsState extends State<CompanyDetails> {
       var response =
           await widget.user!.tryRegisterCompany(companyName, city, widget.user);
       if (response == 200) {
-        Navigator.push(
-          context,
-          MaterialPageRoute(
-            builder: (context) => InsertReviewPage(user: widget.user),
-          ),
-        );
+        // Navigator.push(
+        //   context,
+        //   MaterialPageRoute(
+        //     // builder: (context) => InsertReviewPage(user: widget.user),
+        //   ),
+        // );
       } else if (response == '23505') {
         _failSnackbar('Company has already been registerd');
       } else if (response == '23503') {
@@ -57,40 +57,8 @@ class _CompanyDetailsState extends State<CompanyDetails> {
     return Scaffold(
       appBar: AppBar(
         backgroundColor: Color.fromARGB(255, 248, 247, 246),
-        actions: [
-          Row(
-            children: [
-              const Padding(
-                padding: EdgeInsets.all(10),
-                child: Text(
-                  "WANT TO SEE THE REVIEWS",
-                  style:
-                      TextStyle(color: Color(0xff0A66C2), fontFamily: 'Anton'),
-                ),
-              ),
-              Padding(
-                padding: const EdgeInsets.all(10),
-                child: IconButton(
-                  tooltip: "read review",
-                  onPressed: () {
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                        builder: (context) => CompaniesPage(),
-                      ),
-                    );
-                  },
-                  icon: const Icon(
-                    Icons.rate_review_outlined,
-                    color: Color(0xff0A66C2),
-                  ),
-                ),
-              ),
-            ],
-          ),
-        ],
         automaticallyImplyLeading: false,
-        titleSpacing: 50,
+        titleSpacing: 20,
         title: const Text(
           "Review US",
           style: TextStyle(

@@ -1,6 +1,8 @@
 import 'package:checkapp/controller/companyController.dart';
 import 'package:checkapp/controller/employeeController.dart';
+import 'package:checkapp/screens/profile.dart';
 import 'package:checkapp/screens/signUpPage.dart';
+import 'package:checkapp/screens/admin.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
@@ -39,7 +41,7 @@ class MyApp extends StatelessWidget {
         // is not restarted.
         primarySwatch: Colors.blue,
       ),
-      home: SignUpPage(),
+      home: AdminScreen(),
     );
   }
 }

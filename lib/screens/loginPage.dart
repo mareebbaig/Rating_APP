@@ -1,5 +1,4 @@
 import 'package:checkapp/controller/userController.dart';
-import 'package:checkapp/screens/InsertreviewPage.dart';
 import 'package:checkapp/screens/companiesPage.dart';
 import 'package:flutter/material.dart';
 import '../controller/companyController.dart';
@@ -31,12 +30,12 @@ class _LoginPageState extends State<LoginPage> {
     try {
       var response = await user.tryLogin(email, password);
       if (response['code'] == 200) {
-        Navigator.push(
-          context,
-          MaterialPageRoute(
-            builder: (context) => InsertReviewPage(user: user),
-          ),
-        );
+        // Navigator.push(
+        //   context,
+        //   MaterialPageRoute(
+        //     builder: (context) => InsertReviewPage(user: user),
+        //   ),
+        // );
       } else if (response['code'] == 500) {
         _failSnackbar(response['error']);
       }
@@ -57,14 +56,6 @@ class _LoginPageState extends State<LoginPage> {
         actions: [
           Row(
             children: [
-              const Padding(
-                padding: EdgeInsets.all(10),
-                child: Text(
-                  "WANT TO SEE THE REVIEWS",
-                  style:
-                      TextStyle(color: Color(0xff0A66C2), fontFamily: 'Anton'),
-                ),
-              ),
               Padding(
                 padding: const EdgeInsets.all(10),
                 child: IconButton(
@@ -78,7 +69,7 @@ class _LoginPageState extends State<LoginPage> {
                         builder: (context) => CompaniesPage(),
                       ),
                     );
-                    //  tryGettingComp(context);
+                    //tryGettingComp(context);
                   },
                   icon: const Icon(
                     Icons.rate_review_outlined,
@@ -90,7 +81,7 @@ class _LoginPageState extends State<LoginPage> {
           ),
         ],
         automaticallyImplyLeading: false,
-        titleSpacing: 50,
+        titleSpacing: 20,
         title: const Text(
           "Review US",
           style: TextStyle(

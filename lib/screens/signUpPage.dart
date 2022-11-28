@@ -42,6 +42,9 @@ class _SignUpPageState extends State<SignUpPage> {
             ),
           ),
         );
+        emailController.clear();
+        usernameController.clear();
+        passwordController.clear();
       } else {
         _failSnackbar('email already registered');
       }
@@ -66,14 +69,14 @@ class _SignUpPageState extends State<SignUpPage> {
         actions: [
           Row(
             children: [
-              const Padding(
-                padding: EdgeInsets.all(10),
-                child: Text(
-                  "WANT TO SEE THE REVIEWS",
-                  style:
-                      TextStyle(color: Color(0xff0A66C2), fontFamily: 'Anton'),
-                ),
-              ),
+              // const Padding(
+              //   padding: EdgeInsets.all(5),
+              //   child: Text(
+              //     ,
+              //     style:
+              //         TextStyle(color: Color(0xff0A66C2), fontFamily: 'Anton'),
+              //   ),
+              // ),
               Padding(
                 padding: const EdgeInsets.all(10),
                 child: IconButton(
@@ -99,7 +102,7 @@ class _SignUpPageState extends State<SignUpPage> {
           ),
         ],
         automaticallyImplyLeading: false,
-        titleSpacing: 50,
+        titleSpacing: 20,
         title: const Text(
           "Review US",
           style: TextStyle(

@@ -44,8 +44,8 @@ class UserRepository {
     }
   }
 
-  Future<dynamic> insertReview(
-      String? userId, String? compId, String empName, String review) async {
+  Future<dynamic> insertReview(String? userId, String? compId, String empName,
+      String review, String rating) async {
     try {
       var response = await http.post(
         Uri.parse("http://192.168.3.150:3500/v1/InsertEmpData"),
@@ -54,11 +54,12 @@ class UserRepository {
           'Charset': 'utf-8'
         },
         body: jsonEncode(
-          <String, String>{
+          <String, dynamic>{
             "userId": userId!,
             "compId": compId!,
             'username': empName,
             'review': review,
+            'rating': rating,
           },
         ),
       );

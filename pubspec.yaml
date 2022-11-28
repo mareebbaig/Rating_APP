@@ -39,6 +39,8 @@ dependencies:
   http: ^0.13.5
   provider: ^6.0.4
   form_field_validator: ^1.1.0
+  flutter_rating_bar: ^4.0.1
+  editable: ^2.0.0
 
 dev_dependencies:
   flutter_test:

@@ -52,10 +52,10 @@ class UserController {
     return decodedData['code'];
   }
 
-  Future<dynamic> tryInsertingReview(
-      UserController? user, String empName, String review) async {
+  Future<dynamic> tryInsertingReview(UserController? user, String empName,
+      String review, String rating) async {
     var response = await _userRepository.insertReview(
-        user?._user?.userId, user?._user?.compId, empName, review);
+        user?._user?.userId, user?._user?.compId, empName, review, rating);
     var decodedData = jsonDecode(response.body);
     return decodedData['code'];
   }

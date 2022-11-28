@@ -11,20 +11,20 @@ class CompaniesPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      appBar: AppBar(
+        backgroundColor: Color.fromARGB(255, 248, 247, 246),
+        automaticallyImplyLeading: false,
+        titleSpacing: 20,
+        title: const Text(
+          "Select Company",
+          style: TextStyle(
+            color: Color(0xff0A66C2),
+            fontFamily: 'Anton',
+          ),
+        ),
+      ),
       body: Column(
         children: [
-          const Padding(
-            padding: EdgeInsets.all(10.0),
-            child: Text(
-              "Select Company",
-              style: TextStyle(
-                fontSize: 50.0,
-                fontWeight: FontWeight.w900,
-                letterSpacing: 0.5,
-                height: 2.00,
-              ),
-            ),
-          ),
           Consumer<CompanyController>(
             builder: (context, provider, _) {
               if (!provider.loading) {

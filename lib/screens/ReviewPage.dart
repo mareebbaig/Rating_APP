@@ -1,8 +1,6 @@
 import 'package:checkapp/controller/employeeController.dart';
-import 'package:checkapp/controller/userController.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/src/widgets/container.dart';
-import 'package:flutter/src/widgets/framework.dart';
+import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 import 'package:provider/provider.dart';
 
 class ReadReviewPage extends StatelessWidget {
@@ -11,23 +9,38 @@ class ReadReviewPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: Consumer<EmployeeController>(builder: (context, provider, _) {
-        if (!provider.loading) {
-          return ListView.builder(
-            padding: EdgeInsets.all(10),
-            shrinkWrap: true,
-            itemCount: provider.employee.length,
-            itemBuilder: ((BuildContext context, index) {
-              return ReviewCard(
-                empname: provider.employee[index].username,
-                review: provider.employee[index].review,
-              );
-            }),
-          );
-        } else {
-          return CircularProgressIndicator();
-        }
-      }),
+      appBar: AppBar(
+        backgroundColor: Color.fromARGB(255, 248, 247, 246),
+        automaticallyImplyLeading: false,
+        titleSpacing: 20,
+        title: const Text(
+          "Employee Reviews",
+          style: TextStyle(
+            color: Color(0xff0A66C2),
+            fontFamily: 'Anton',
+          ),
+        ),
+      ),
+      body: Consumer<EmployeeController>(
+        builder: (context, provider, _) {
+          if (!provider.loading) {
+            return ListView.builder(
+              padding: EdgeInsets.all(10),
+              shrinkWrap: true,
+              itemCount: provider.employee.length,
+              itemBuilder: ((BuildContext context, index) {
+                return ReviewCard(
+                  empname: provider.employee[index].username,
+                  review: provider.employee[index].review,
+                  rating: provider.employee[index].rating,
+                );
+              }),
+            );
+          } else {
+            return CircularProgressIndicator();
+          }
+        },
+      ),
     );
   }
 }
@@ -35,10 +48,12 @@ class ReadReviewPage extends StatelessWidget {
 class ReviewCard extends StatelessWidget {
   final String? empname;
   final String? review;
+  final String? rating;
   const ReviewCard({
     Key? key,
     required this.empname,
     required this.review,
+    required this.rating,
   }) : super(key: key);
 
   @override
@@ -70,9 +85,7 @@ class ReviewCard extends StatelessWidget {
                     style: const TextStyle(
                         fontSize: 18.0,
                         fontWeight: FontWeight.w900,
-                        color: Color.fromARGB(255, 248, 247, 246)
-                        //height: 2.00,
-                        ),
+                        color: Color.fromARGB(255, 248, 247, 246)),
                   ),
                 ),
               ),
@@ -86,6 +99,15 @@ class ReviewCard extends StatelessWidget {
                     //height: 2.00,
                   ),
                 ),
+              ),
+              RatingBarIndicator(
+                rating: double.parse(rating!),
+                itemBuilder: (context, index) => Icon(
+                  Icons.star,
+                  color: const Color(0xff0A66C2),
+                ),
+                itemCount: 5,
+                direction: Axis.horizontal,
               ),
             ],
           ),
